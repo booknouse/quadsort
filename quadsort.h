@@ -34,10 +34,12 @@
 	#define register
 	#define CASTPINT(a) static_cast<int*>(a)
     #define CASTPUINT(a) static_cast<unsigned int*>(a)
+	#define CASTPUCHAR(a) static_cast<unsigned char*>(a)
 	#define CASTPLONGLONG(a) static_cast<long long*>(a)
 #elif
 	#define CASTPINT(a) a
     #define CASTPUINT(a) a
+	#define CASTPUCHAR(a) a
 	#define CASTPLONGLONG(a) a
 #endif
 typedef int CMPFUNC (const void *a, const void *b);
