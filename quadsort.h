@@ -28,7 +28,9 @@
 #include <stdio.h>
 #include <assert.h>
 #include <errno.h>
-
+#ifdef __cplusplus
+#define register
+#endif
 typedef int CMPFUNC (const void *a, const void *b);
 
 #define swap_two(array, swap)  \
@@ -162,8 +164,8 @@ void tail_insert32(int *array, int key, unsigned char nmemb, CMPFUNC *cmp)
 void tail_swap32(int *array, unsigned char nmemb, CMPFUNC *cmp)
 {
 	int pts[8];
-	/*register */int *pta = array;
-	/*register */unsigned char i, mid, cnt;
+	register int *pta = array;
+	register unsigned char i, mid, cnt;
 
 	switch (nmemb)
 	{
@@ -310,7 +312,7 @@ unsigned int quad_swap32(int *array, unsigned int nmemb, CMPFUNC *cmp)
 {
 	int swap[16];
 	unsigned int offset;
-	/*register */int *pta, *pts, *ptt, *pte, tmp;
+	register int *pta, *pts, *ptt, *pte, tmp;
 
 	pta = array;
 	pte = pta + nmemb - 4;
@@ -763,7 +765,7 @@ unsigned int quad_swap32(int *array, unsigned int nmemb, CMPFUNC *cmp)
 void quad_merge32(int *array, int *swap, unsigned int nmemb, unsigned int block, CMPFUNC *cmp)
 {
 	unsigned int offset;
-	/*register */int *pta, *pts, *c, *c_max, *d, *d_max;
+	register int *pta, *pts, *c, *c_max, *d, *d_max;
 
 	while (block * 8 < nmemb)
 	{
@@ -961,7 +963,7 @@ void quad_merge32(int *array, int *swap, unsigned int nmemb, unsigned int block,
 void tail_merge32(int *array, int *swap, unsigned int nmemb, unsigned int block, CMPFUNC *cmp)
 {
 	unsigned int offset;
-	/*register */int *pta, *pts, *c, *c_max, *d, *d_max, *e;
+	register int *pta, *pts, *c, *c_max, *d, *d_max, *e;
 
 	pts = swap;
 
@@ -1104,8 +1106,8 @@ void tail_insert64(long long *array, long long key, unsigned char nmemb, CMPFUNC
 void tail_swap64(long long *array, unsigned char nmemb, CMPFUNC *cmp)
 {
 	long long pts[8];
-	/*register */long long *pta = array;
-	/*register */unsigned char i, mid, cnt;
+	register long long *pta = array;
+	register unsigned char i, mid, cnt;
 
 	switch (nmemb)
 	{
@@ -1252,7 +1254,7 @@ size_t quad_swap64(long long *array, size_t nmemb, CMPFUNC *cmp)
 {
 	long long swap[16];
 	size_t offset;
-	/*register */long long *pta, *pts, *ptt, *pte, tmp;
+	register long long *pta, *pts, *ptt, *pte, tmp;
 
 	pta = array;
 	pte = pta + nmemb - 4;
@@ -1705,7 +1707,7 @@ size_t quad_swap64(long long *array, size_t nmemb, CMPFUNC *cmp)
 void quad_merge64(long long *array, long long *swap, size_t nmemb, size_t block, CMPFUNC *cmp)
 {
 	size_t offset;
-	/*register */long long *pta, *pts, *c, *c_max, *d, *d_max;
+	register long long *pta, *pts, *c, *c_max, *d, *d_max;
 
 	while (block * 8 < nmemb)
 	{
@@ -1903,7 +1905,7 @@ void quad_merge64(long long *array, long long *swap, size_t nmemb, size_t block,
 void tail_merge64(long long *array, long long *swap, size_t nmemb, size_t block, CMPFUNC *cmp)
 {
 	size_t offset;
-	/*register */long long *pta, *pts, *c, *c_max, *d, *d_max, *e;
+	register long long *pta, *pts, *c, *c_max, *d, *d_max, *e;
 
 	pts = swap;
 
