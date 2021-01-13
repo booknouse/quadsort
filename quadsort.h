@@ -29,7 +29,16 @@
 #include <assert.h>
 #include <errno.h>
 #ifdef __cplusplus
-#define register
+	#include <string.h>
+	#define cmp(a,b) (*(a) > *(b))
+	#define register
+	#define CASTPINT(a) static_cast<int*>(a)
+    #define CASTPUINT(a) static_cast<unsigned int*>(a)
+	#define CASTPLONGLONG(a) static_cast<long long*>(a)
+#elif
+	#define CASTPINT(a) a
+    #define CASTPUINT(a) a
+	#define CASTPLONGLONG(a) a
 #endif
 typedef int CMPFUNC (const void *a, const void *b);
 
@@ -2023,22 +2032,22 @@ void quadsort(void *array, size_t nmemb, size_t size, CMPFUNC *cmp)
 	{
 		if (nmemb < 16)
 		{
-			tail_swap32(array, (unsigned char) nmemb, cmp);
+			tail_swap32(CASTPINT(array), (unsigned char) nmemb, cmp);
 		}
 		else if (nmemb < 128)
 		{
-			if (quad_swap32(array, nmemb, cmp) == 0)
+			if (quad_swap32(CASTPINT(array), nmemb, cmp) == 0)
 			{
 				int swap[64];
 
-				tail_merge32(array, swap, nmemb, 16, cmp);
+				tail_merge32(CASTPINT(array), swap, nmemb, 16, cmp);
 			}
 		}
 		else
 		{
-			if (quad_swap32(array, nmemb, cmp) == 0)
+			if (quad_swap32(CASTPINT(array), nmemb, cmp) == 0)
 			{
-				int *swap = malloc(nmemb * size / 2);
+				int *swap = CASTPINT(malloc(nmemb * size / 2));
 
 				if (swap == NULL)
 				{
@@ -2047,7 +2056,7 @@ void quadsort(void *array, size_t nmemb, size_t size, CMPFUNC *cmp)
 					return;
 				}
 
-				quad_merge32(array, swap, nmemb, 16, cmp);
+				quad_merge32(CASTPINT(array), swap, nmemb, 16, cmp);
 
 				free(swap);
 			}
@@ -2057,22 +2066,22 @@ void quadsort(void *array, size_t nmemb, size_t size, CMPFUNC *cmp)
 	{
 		if (nmemb < 16)
 		{
-			tail_swap64(array, (unsigned char) nmemb, cmp);
+			tail_swap64(CASTPLONGLONG(array), (unsigned char) nmemb, cmp);
 		}
 		else if (nmemb < 128)
 		{
-			if (quad_swap64(array, nmemb, cmp) == 0)
+			if (quad_swap64(CASTPLONGLONG(array), nmemb, cmp) == 0)
 			{
 				long long swap[64];
 
-				tail_merge64(array, swap, nmemb, 16, cmp);
+				tail_merge64(CASTPLONGLONG(array), swap, nmemb, 16, cmp);
 			}
 		}
 		else
 		{
-			if (quad_swap64(array, nmemb, cmp) == 0)
+			if (quad_swap64(CASTPLONGLONG(array), nmemb, cmp) == 0)
 			{
-				long long *swap = malloc(nmemb * size / 2);
+				long long *swap = CASTPLONGLONG(malloc(nmemb * size / 2));
 
 				if (swap == NULL)
 				{
@@ -2080,7 +2089,7 @@ void quadsort(void *array, size_t nmemb, size_t size, CMPFUNC *cmp)
 
 					return;
 				}
-				quad_merge64(array, swap, nmemb, 16, cmp);
+				quad_merge64(CASTPLONGLONG(array), swap, nmemb, 16, cmp);
 
 				free(swap);
 			}
